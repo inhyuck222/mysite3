@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+	<insert id="insertNewPost" parameterType="boardvo">
+		<![CDATA[
+			insert
+			into board
+			values(
+				null,
+				#{title },
+				#{content},
+				ifnull( (select MAX(group_no) from board max_board), 0) + 1,
+				#{orderNo },
+				#{depth },	
+				now(),
+				#{hit },
+				#{userNo},
+				#{deleted}
+			)
+		]]>
+	</insert>
+	
+	<insert id="insertRepost" parameterType="map">
+		<![CDATA[
+			insert
+			into board
+			values(
+				null,
+				#{title },
+				#{content }, 
+				#{groupNo }, 
+				#{orderNo },
+				#{depth },	
+				now(),
+				0,
+				#{userNo }, 
+				#{deleted }
+			)
+		
+		]]>
+	</insert>
+	
+	<update id="repostUpdate" parameterType="map">
+		<![CDATA[
+			update board set order_no = order_no + 1 where group_no = #{pGroupNo } and order_no >= #{pOrderNo } + 1
+		]]>
+	</update>
+
+	<update id="deletePost" parameterType="long">
+		<![CDATA[
+			update board set is_deleted = 1 where no = #{no }
+		]]>
+	</update>
+
+	<update id="updatePost" parameterType="boardvo">
+		<![CDATA[
+			update board set title=#{title }, content=#{content } where no=#{no }
+		]]>
+	</update>
+
+	<update id="updateHit" parameterType="long">
+		<![CDATA[
+			update board set hit = hit + 1 where no=#{no }
+		]]>
+	</update>
+
+	<select id="selectTheBoard" parameterType="long" resultType="boardvo">
+		<![CDATA[
+			select
+				no,
+				title,
+				content,
+				group_no AS groupNo,
+				order_no AS orderNo,
+				depth,
+				regDate,
+				hit,
+				user_no AS userNo
+			from board
+			where no = #{no }
+		]]>
+	</select>
+
+	<select id="selectAllBoardInPage" parameterType="map" resultType="boardvo">		
+		<![CDATA[
+			select
+				b.no AS no,
+				b.title AS title,
+				u.name AS userName,
+				u.no AS userNo,
+				b.hit AS hit,
+				b.regDate AS regDate,
+				b.depth AS depth,
+				b.is_deleted AS deleted
+			from board b join users u on b.user_no = u.no
+			where content LIKE #{keyword }
+			order by group_no desc, order_no asc
+			LIMIT #{start }, #{listCount }
+		]]>		
+	</select>
+	
+	<select id="getTotalCount" parameterType="string" resultType="long">
+		<![CDATA[
+			select
+				count(*)
+			from board 
+			where content LIKE #{keyword }
+		]]>		
+	</select>
+	
+</mapper>

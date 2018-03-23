@@ -22,8 +22,7 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService boardService;
-	
-	
+		
 	
 	@RequestMapping(value= {"", "list"})
 	public String list(

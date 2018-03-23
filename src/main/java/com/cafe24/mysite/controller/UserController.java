@@ -28,7 +28,6 @@ public class UserController {
 	
 	@RequestMapping(value="/join", method=RequestMethod.POST)
 	public String join(@ModelAttribute UserVo user) {
-		//userDao.insert(user);
 		userService.join(user);
 		
 		return "redirect:/user/joinsuccess";
@@ -66,7 +65,6 @@ public class UserController {
 		return "redirect:/main";
 	}
 	
-	//@Auth
 	@RequestMapping(value="/modify", method=RequestMethod.GET)
 	public String modify(HttpSession session) {
 		/* 접근제어 */

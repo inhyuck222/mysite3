@@ -28,6 +28,10 @@ public class UserDao {
 		return count == 1;
 	}
 	
+	public UserVo get(String email) {
+		return sqlSession.selectOne("user.getByEmail", email);
+	}
+	
 	public UserVo get(Long no) {
 		return sqlSession.selectOne("user.getByNo", no);
 	}

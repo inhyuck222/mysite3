@@ -18,7 +18,7 @@ import com.cafe24.mysite.vo.GuestbookVo;
 public class GuestbookController {
 	
 	@Autowired
-	GuestbookService guestbookService;	
+	GuestbookService guestbookService;
 	
 	@RequestMapping(value= {"", "/list"})
 	public String list(Model model) {
@@ -64,5 +64,10 @@ public class GuestbookController {
 		}
 		
 		return "redirect:/guestbook/list";
+	}
+	
+	@RequestMapping("/ajax")
+	public String ajax() {
+		return "guestbook/index-ajax";
 	}
 }

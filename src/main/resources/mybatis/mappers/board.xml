@@ -19,6 +19,11 @@
 				#{deleted}
 			)
 		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+			<![CDATA[
+				select last_insert_id()
+			]]>
+		</selectKey>
 	</insert>
 	
 	<insert id="insertRepost" parameterType="map">
@@ -37,8 +42,12 @@
 				#{userNo }, 
 				#{deleted }
 			)
-		
 		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+			<![CDATA[
+				select last_insert_id()
+			]]>
+		</selectKey>
 	</insert>
 	
 	<update id="repostUpdate" parameterType="map">

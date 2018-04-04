@@ -27,3 +27,75 @@
 #guestbook.delete-message p	{ padding:100px; height:50px; text-align:center }
 
 #guestbook textarea#content	{ width: 100%; border:none; height: 100px; resize: none; outline: none; }
+
+
+#guestbook h1 {
+	background: url('/mysite3/assets/images/guestbook.png') 0 0 no-repeat;
+	background-size: 35px;
+	color: #555;
+	padding-left: 40px;
+	margin-left: 10px;
+}
+
+#add-form * {
+	width: 500px;
+	display: block;
+	margin: 10px 5px 0 5px;
+	padding: 5px;
+	border: 1px solid #ccc;
+	background-color: #fff;
+	color: #333;
+}
+
+#add-form input[type='submit'] {
+	width: 512px;
+	padding-top: 5px;
+}
+
+#add-form textarea {
+	height: 70px;
+	resize: none;
+}
+
+#guestbook ul li strong, #guestbook ul li a {
+	display:block;
+}
+
+#guestbook ul li {
+	position:relative;
+	width: 400px;
+	margin: 10px 5px 0 5px;
+}
+
+#guestbook ul li a {
+	width: 20px;
+	height: 20px;
+	position:absolute;
+	left:20px;
+	top:40px;
+	background: url('/mysite3/assets/images/delete.png') 0 0 no-repeat;
+	font-size: 0;		
+}
+
+#list-guestbook li .list-content {
+	margin-left: 50px;
+}
+
+#list-guestbook li p {
+	width: 430px;
+	margin: 5px;
+	padding: 10px;
+	background-color: #eee;
+	border-radius: 5px;
+}
+
+#list-guestbook li strong.user {
+	position:absolute;	
+	top: 20px;
+	width: 150px;
+	height: 100px;	
+	margin-left: 5px;
+	color: #aaa;
+	font-size: 1em;
+	background: url('/mysite3/assets/images/user.png') 0 0 no-repeat;
+}

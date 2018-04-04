@@ -2,8 +2,6 @@ package com.cafe24.mysite.controller;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.cafe24.mysite.service.BoardService;
 import com.cafe24.mysite.vo.BoardVo;
 import com.cafe24.mysite.vo.UserVo;
+import com.cafe24.security.Auth;
+import com.cafe24.security.AuthUser;
 
 @RequestMapping("board")
 @Controller
@@ -28,8 +28,7 @@ public class BoardController {
 	public String list(
 			@RequestParam(value="kwd", required=true, defaultValue="") String keyword, 
 			@RequestParam(value="page", required=true, defaultValue="1") Long recentPage,
-			Model model)
-	{
+			Model model) {
 		
 		Map<String, Object> map = boardService.getList(keyword, recentPage);
 		
@@ -40,18 +39,16 @@ public class BoardController {
 	
 	
 	
-	@RequestMapping(value="view")
+	@RequestMapping(value="view", method=RequestMethod.GET)
 	public String view(
 			@RequestParam(value="no") Long no, 
 			@RequestParam(value="kwd", required=true, defaultValue="") String keyword,
 			@RequestParam(value="page", required=true, defaultValue="1") Long recentPage,
-			Model model)
-	{
+			Model model) {
 		BoardVo boardSelected = boardService.viewTheBoard(no);
+		model.addAttribute("page", recentPage);
+		model.addAttribute("kwd", keyword);
 		if(boardSelected == null) {
-			model.addAttribute("recentPage", recentPage);
-			model.addAttribute("kwd", keyword);
-			
 			return "/board/list";
 		}
 		
@@ -59,46 +56,30 @@ public class BoardController {
 		
 		return "/board/view";
 	}
-
 	
 	
+	@Auth
 	@RequestMapping(value="newpostwrite", method=RequestMethod.GET)
-	public String newpostWrite(HttpSession session) {
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		if(authUser == null) {
-			System.out.println("BoardController.newpostWrite : authUser is null");
-			return "/user/login";
-		}		
-		
+	public String newpostWrite() {
+				
 		return "/board/newpostwrite";
 	}
 	
-	
-	
-	//newboard의 no를 받아서 view로
+		
 	@RequestMapping(value="newpostwrite", method=RequestMethod.POST)
 	public String newpostWrite(
-			HttpSession session, 
+			@AuthUser UserVo authUser, 
 			Model model, 
 			BoardVo newpostBoard, 
-			@RequestParam(value="page", required=true, defaultValue="1") Long recentPage
-			) 
-	{
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		if(authUser == null) {
-			System.out.println("BoardController.newpostWrite : authUser is null");
-			return "/user/login";
-		}
-		
+			@RequestParam(value="page", required=true, defaultValue="1") Long recentPage) {
+				
 		boolean result = boardService.insertNewpost(newpostBoard, authUser);
-		model.addAttribute("page", recentPage);		//수정 후 삭제
-		if(result == false) {
-			//model.addAttribute("page", recentPage);  수정 후 추가
+		model.addAttribute("page", recentPage);
+		if(result == false) {			
 			return "redirect:/board/list";
-		}
+		}		
 		
-		
-		return "redirect:/board/list";
+		return "redirect:/board/view?no=" + newpostBoard.getNo();
 	}
 	
 	
@@ -106,6 +87,7 @@ public class BoardController {
 	/*
 	 * 	새로 작성된 보드의 no를 갖고 와야된다.
 	 */
+	@Auth
 	@RequestMapping(value="repost", method=RequestMethod.GET)
 	public String repostWrite(
 			Model model, 
@@ -137,17 +119,12 @@ public class BoardController {
 	@RequestMapping(value="repost", method=RequestMethod.POST)
 	public String repostWrite(
 			Model model, 
-			HttpSession session, 
+			@AuthUser UserVo authUser,
 			@ModelAttribute BoardVo repostBoard, 
 			@RequestParam(value="pGroupNo", required=false) Long pGroupNo, 
 			@RequestParam(value="pOrderNo", required=false) Long pOrderNo, 
 			@RequestParam(value="pDepth", required=false) Long pDepth, 
-			@RequestParam(value="page", required=true, defaultValue="1") Long recentPage) 
-	{
-		if(session == null) {
-			return "/board/list";
-		}
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
+			@RequestParam(value="page", required=true, defaultValue="1") Long recentPage) {		
 		if(authUser == null) {
 			return "/user/login";
 		}
@@ -169,15 +146,13 @@ public class BoardController {
 		model.addAttribute("board", repostBoard);
 		
 		
-		return "redirect:/board/list";
+		return "redirect:/board/view?no=" + repostBoard.getNo();
 	}
 		
 	
 	
 	@RequestMapping(value="modify", method=RequestMethod.GET)
-	public String modifyPost(HttpSession session, Model model, @RequestParam(value="boardNo", required=false) Long no) {
-		UserVo authUser = (UserVo)session.getAttribute("authUser");		
-		
+	public String modifyPost(@AuthUser BoardVo authUser, Model model, @RequestParam(value="boardNo", required=false) Long no) {
 		if(authUser == null) {
 			System.out.println("BoardController.modifyPost : authUser is null");
 			return "/board/view";
@@ -192,8 +167,7 @@ public class BoardController {
 	
 	
 	@RequestMapping(value="modify", method=RequestMethod.POST)
-	public String modifyPost(HttpSession session, Model model, @ModelAttribute BoardVo boardForModified) {
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
+	public String modifyPost(@AuthUser BoardVo authUser, Model model, @ModelAttribute BoardVo boardForModified) {
 		model.addAttribute("no", boardForModified.getNo());
 		if(authUser == null) {
 			System.out.println("BoardController.modifyPost : authUser is null");
@@ -215,7 +189,7 @@ public class BoardController {
 	@RequestMapping(value="delete", method=RequestMethod.GET)
 	public String delete(
 			Model model, 
-			HttpSession session, 
+			@AuthUser BoardVo authUser,
 			@RequestParam(value="no") Long no, 
 			@RequestParam(value="page") Long recentPage)
 	{
@@ -223,7 +197,6 @@ public class BoardController {
 		model.addAttribute("page", recentPage);
 	
 		
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		if(authUser == null){
 			System.out.println("BoardController.modifyPost : authUser is null");
 			return "/board/view";

@@ -36,6 +36,7 @@ public class BoardDao {
 		map.put("deleted", repostBoard.isDeleted());
 		int count = sqlSession.insert("insertRepost", map);
 		
+		repostBoard.setNo((Long)(map.get("no")));
 		
 		return count == 1;
 	}

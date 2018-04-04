@@ -22,6 +22,16 @@ public class UserService {
 	
 	public boolean modifyUser(UserVo authUser, UserVo userModified, String originPwd) {
 		boolean result = userDao.update(authUser, userModified, originPwd);
+		
+		
+		UserVo newUserInfo = userDao.get(authUser.getNo());
+		
+		if(result == true) {
+			authUser.setName(newUserInfo.getName());
+			authUser.setGender(newUserInfo.getGender());
+			authUser.setPassword(newUserInfo.getPassword());
+		}
+		
 		return result;
 	}
 }

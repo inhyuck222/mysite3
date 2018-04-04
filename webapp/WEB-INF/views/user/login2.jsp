@@ -14,7 +14,7 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"></c:import>
 		<div id="content">
 			<div id="user">
-				<form id="login-form" name="loginform" method="post" action="${pageContext.servletContext.contextPath }/user/auth">
+				<form id="login-form" name="loginform" method="post" action="${pageContext.servletContext.contextPath }/user2/login">
 					<label class="block-label" for="email">이메일</label>
 					<c:choose>
 						<c:when test="${not empty requestScope.email }">					

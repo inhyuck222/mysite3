@@ -4,28 +4,49 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <div id="navigation">
-
 	<ul>
 		<c:choose>
 			<c:when test='${param.menu == "main" }'>
 				<li class="selected"><a href="${pageContext.servletContext.contextPath }/main">임인혁</a></li>
 				<li><a href="${pageContext.servletContext.contextPath }/guestbook">방명록</a></li>
+				<li><a href="${pageContext.servletContext.contextPath }/guestbook/ajax">방명록 (ajax)</a></li>
 				<li><a href="${pageContext.servletContext.contextPath }/board">게시판</a></li>
+				<li><a href="${pageContext.servletContext.contextPath }/gallery">갤러리</a></li>
 			</c:when>
 			<c:when test='${param.menu == "guestbook" }'>
 				<li><a href="${pageContext.servletContext.contextPath }/main">임인혁</a></li>
 				<li class="selected"><a href="${pageContext.servletContext.contextPath }/guestbook">방명록</a></li>
+				<li><a href="${pageContext.servletContext.contextPath }/guestbook/ajax">방명록 (ajax)</a></li>
 				<li><a href="${pageContext.servletContext.contextPath }/board">게시판</a></li>
+				<li><a href="${pageContext.servletContext.contextPath }/gallery">갤러리</a></li>
+			</c:when>
+			<c:when test='${param.menu == "guestbook-ajax" }'>
+				<li><a href="${pageContext.servletContext.contextPath }/main">임인혁</a></li>
+				<li><a href="${pageContext.servletContext.contextPath }/guestbook">방명록</a></li>
+				<li class="selected"><a href="${pageContext.servletContext.contextPath }/guestbook/ajax">방명록 (ajax)</a></li>
+				<li><a href="${pageContext.servletContext.contextPath }/board">게시판</a></li>
+				<li><a href="${pageContext.servletContext.contextPath }/gallery">갤러리</a></li>
 			</c:when>
 			<c:when test='${param.menu == "board" }'>
 				<li><a href="${pageContext.servletContext.contextPath }/main">임인혁</a></li>
 				<li><a href="${pageContext.servletContext.contextPath }/guestbook">방명록</a></li>
+				<li><a href="${pageContext.servletContext.contextPath }/guestbook/ajax">방명록 (ajax)</a></li>
 				<li class="selected"><a href="${pageContext.servletContext.contextPath }/board">게시판</a></li>
+				<li><a href="${pageContext.servletContext.contextPath }/gallery">갤러리</a></li>
+			</c:when>
+			<c:when test='${param.menu == "gallery" }'>
+				<li><a href="${pageContext.servletContext.contextPath }/main">임인혁</a></li>
+				<li><a href="${pageContext.servletContext.contextPath }/guestbook">방명록</a></li>
+				<li><a href="${pageContext.servletContext.contextPath }/guestbook/ajax">방명록 (ajax)</a></li>
+				<li><a href="${pageContext.servletContext.contextPath }/board">게시판</a></li>
+				<li class="selected"><a href="${pageContext.servletContext.contextPath }/gallery">갤러리</a></li>
 			</c:when>
 			<c:otherwise>
 				<li><a href="${pageContext.servletContext.contextPath }/main">임인혁</a></li>
 				<li><a href="${pageContext.servletContext.contextPath }/guestbook">방명록</a></li>
+				<li><a href="${pageContext.servletContext.contextPath }/guestbook/ajax">방명록 (ajax)</a></li>
 				<li><a href="${pageContext.servletContext.contextPath }/board">게시판</a></li>
+				<li><a href="${pageContext.servletContext.contextPath }/gallery">갤러리</a></li>
 			</c:otherwise>
 		</c:choose>
 	</ul>

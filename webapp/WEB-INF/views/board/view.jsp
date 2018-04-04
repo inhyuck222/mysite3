@@ -35,7 +35,7 @@
 					</tr>
 				</table>
 				<div class="bottom">
-					<a href="${pageContext.servletContext.contextPath }/board/list">글목록</a>
+					<a href="${pageContext.servletContext.contextPath }/board/list?page=${page}">글목록</a>
 					<c:if test="${sessionScope.authUser.no == board.userNo }">
 						<a href="${pageContext.servletContext.contextPath }/board/modify?boardNo=${board.no }">글수정</a>
 					</c:if>

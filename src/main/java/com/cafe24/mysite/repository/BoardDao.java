@@ -28,12 +28,12 @@ public class BoardDao {
 	public boolean insertRepost(BoardVo repostBoard, BoardVo parentBoard, UserVo authUser) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("title", repostBoard.getTitle());
+		map.put("deleted", repostBoard.isDeleted());
 		map.put("content", repostBoard.getContent());
 		map.put("groupNo", parentBoard.getGroupNo());
 		map.put("orderNo", parentBoard.getOrderNo() + 1);
 		map.put("depth", parentBoard.getDepth() + 1);
 		map.put("userNo", authUser.getNo());
-		map.put("deleted", repostBoard.isDeleted());
 		int count = sqlSession.insert("insertRepost", map);
 		
 		repostBoard.setNo((Long)(map.get("no")));

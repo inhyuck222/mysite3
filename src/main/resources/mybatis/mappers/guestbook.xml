@@ -16,9 +16,43 @@
 		]]>
 	</select>
 	
-	<delete id="delete" parameterType="map">
+	<select id="getListByNo" parameterType="long" resultType="guestbookvo">
 		<![CDATA[
-			delete from guestbook where no = #{no } and password = password(#{pwd})
+			select 
+				no,
+				name,
+				password,
+				content,
+				date_format(reg_date, '%Y-%m-%d %h:%i:%s') as regDate
+			from guestbook
+		]]>
+		<if test="_parameter > 0">
+		<![CDATA[
+			where no < #{_parameter}
+		]]>
+		</if>
+		<![CDATA[
+			order by reg_date desc
+			limit 0, 5
+		]]>
+	</select>
+	
+	<select id="getByNo" resultType="guestbookvo">
+		<![CDATA[
+			select 
+				no,
+				name,
+				password,
+				content,
+				date_format(reg_date, '%Y-%m-%d %h:%i:%s') as regDate
+			from guestbook
+			where no = #{no }
+		]]>
+	</select>
+	
+	<delete id="delete" parameterType="guestbookvo">
+		<![CDATA[
+			delete from guestbook where no = #{no } and password = password(#{password })
 		]]>
 	</delete>
 	

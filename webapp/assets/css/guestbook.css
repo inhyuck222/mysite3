@@ -67,7 +67,7 @@
 	margin: 10px 5px 0 5px;
 }
 
-#guestbook ul li a {
+#guestbook ul li #delete-ajax {
 	width: 20px;
 	height: 20px;
 	position:absolute;
@@ -92,8 +92,8 @@
 #list-guestbook li strong.user {
 	position:absolute;	
 	top: 20px;
-	width: 150px;
-	height: 100px;	
+	width: 50px;
+	height: 50px;	
 	margin-left: 5px;
 	color: #aaa;
 	font-size: 1em;

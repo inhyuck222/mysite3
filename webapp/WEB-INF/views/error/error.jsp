@@ -11,7 +11,7 @@
 	<p>죄송ㅎㅂ니다</p>
 	<h4>==================================================</h4>	
 	<pre style="color:red; font-weight:bold">	
-		${exception }
+		${errors }
 	</pre>
 </body>
 </html>

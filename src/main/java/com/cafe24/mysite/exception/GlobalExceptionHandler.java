@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
 		e.printStackTrace();
 		StringWriter errors = new StringWriter();
 		e.printStackTrace(new PrintWriter(errors));		
-		//request.setAttribute("errors", errors.toString());
+		request.setAttribute("errors", errors.toString());
 		
 		//e.printStackTrace();
 		
